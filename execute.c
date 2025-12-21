@@ -8,12 +8,12 @@
  */
 char **tokenize(char *line)
 {
-char **tokens = malloc(64 * sizeof(char *));·
+char **tokens = malloc(64 * sizeof(char *));
 char *token;
 int i = 0;
 if (!line)
-return NULL;
-token = strtok(line, " \t\n\r");
+return (NULL);
+token = strtok(line, "\t\n\r");
 while (token != NULL)
 {
 tokens[i] = token;
@@ -21,14 +21,14 @@ i++;
 token = strtok(NULL, " \t\n\r");
 }
 tokens[i] = NULL;
-return tokens;
+return (tokens);
 }
 void execute_command(char *line, char **av)
 {
 char **args;
 pid_t pid;
 args = tokenize(line);
-if (!args || !args[0])§Ø±Øº
+if (!args || !args[0])
 {
 free(args);
 return;
