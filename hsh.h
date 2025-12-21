@@ -12,5 +12,6 @@ extern char **environ;
 void shell_loop(char **av);
 void execute_command(char *line, char **av);
 char **tokenize(char *line);
+char *trim_spaces(char *str);
 
 #endif

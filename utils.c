@@ -1,24 +1,21 @@
 #include "hsh.h"
 
-void trim_command(char *cmd)
+/**
+ * trim_spaces - removes leading and trailing spaces/tabs
+ * @str: input string
+ *
+ * Return: pointer to trimmed string
+ */
+char *trim_spaces(char *str)
 {
-size_t len;
-
-if (!cmd)
-return;
-
-while (*cmd == ' ' || *cmd == '\t')
-cmd++;
-
-len = strlen(cmd);
-while (len > 0 && (cmd[len - 1] == ' ' || cmd[len - 1] == '\t'))
-{
-cmd[len - 1] = '\0';
-len--;
-}
-}
-
-void free_resources(char *line)
-{
-free(line);
+char *end;
+while (*str == ' ' || *str == '\t')
+str++;
+if (*str == '\0')
+return (str);
+end = str + strlen(str) - 1;
+while (end > str && (*end == ' ' || *end == '\t'))
+end--;
+*(end + 1) = '\0';
+return (str);
 }
