@@ -23,12 +23,26 @@ token = strtok(NULL, " \t\n\r");
 tokens[i] = NULL;
 return (tokens);
 }
+/**
+ * execute_command -tabs as delimiters
+ * @line: input string
+ * @av: input
+ * Return: array of tokens (NULL-terminated)
+ */
 void execute_command(char *line, char **av)
 {
 char **args;
 pid_t pid;
+size_t i;
+
+if (!line)
+return;
+for (i = 0; line[i] == ' ' || line[i] == '\t'; i++)
+;
+if (line[i] == '\0')
+return;
 args = tokenize(line);
-if (!args || !args[0])
+if (!args || !args[0] || args[0][0] == '\0')
 {
 free(args);
 return;
@@ -50,7 +64,7 @@ waitpid(pid, &status, 0);
 }
 else
 {
-perror("fork failed");
+return;
 }
 free(args);
 }

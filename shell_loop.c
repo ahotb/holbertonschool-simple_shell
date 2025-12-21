@@ -19,10 +19,7 @@ break;
 }
 if (nread > 0 && line[nread - 1] == '\n')
 line[nread - 1] = '\0';
-if (nread == 1 || (nread == 0))
-{
-continue;
-}
+
 execute_command(line, av);
 }
 
