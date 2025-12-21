@@ -10,7 +10,7 @@ return;
 while (*cmd == ' ' || *cmd == '\t')
 cmd++;
 
-len = strlen(cmd)
+len = strlen(cmd);
 while (len > 0 && (cmd[len - 1] == ' ' || cmd[len - 1] == '\t'))
 {
 cmd[len - 1] = '\0';
