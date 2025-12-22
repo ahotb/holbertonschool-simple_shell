@@ -24,7 +24,7 @@ void execute_command(char **args, char **av)
 		write(STDERR_FILENO, ": 1: ", 5);
 		write(STDERR_FILENO, args[0], strlen(args[0]));
 		write(STDERR_FILENO, ": not found\n", 12);
-		exit(127);
+		return (127);
 	}
 
 	while (args[i] != NULL && i < 63)
