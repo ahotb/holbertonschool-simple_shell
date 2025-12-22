@@ -1,15 +1,40 @@
-#include "hsh.h"
-
+#include <stdio.h>
+#include <stdlib.h>
+#include "parse.h"
+#include "builtins.h"
 /**
- * main - Entry point of the simple shell
- * @ac: argument count (unused)
- * @av: argument vector (program name)
+ * main - entry point for our shell
+ * @argc: argument count
+ * @argv: argument vector
  *
- * Return: Always 0
+ * Return: 0 on success, or exit code
  */
-int main(int ac, char **av)
+int main(int argc, char **argv)
 {
-	(void)ac;
-	shell_loop(av);
-	return (0);
+char *line = NULL;
+char **args;
+int status = 1;
+
+(void)argc;
+(void)argv;
+
+while (status >= 0)
+{
+printf(":) ");
+line = read_line();
+if (!line)
+break;
+args = split_line(line);
+if (args[0])
+{
+if (is_builtin(args))
+status = run_builtin(args);
+else
+status = launch(args);
 }
+free(line);
+free(args);
+}
+return 0;
+}
+

@@ -1,63 +1,64 @@
-#include "hsh.h"
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include "parse.h"
+#define MAX_ARGS 64
+#define DELIM " \t\r\n\a"
 /**
- * trim_spaces - Removes leading/trailing whitespace
- * @str: input string
+ * read_line - reads a line from stdin
  *
- * Return: pointer to trimmed string (within original memory)
+ * Return: pointer to line (must be freed)
  */
-char *trim_spaces(char *str)
+char *read_line(void)
 {
-	char *end;
-
-	if (!str || *str == '\0')
-		return (str);
-
-	while (*str == ' ' || *str == '\t')
-		str++;
-
-	if (*str == '\0')
-		return (str);
-
-	end = str + strlen(str) - 1;
-	while (end > str && (*end == ' ' || *end == '\t'))
-		end--;
-
-	*(end + 1) = '\0';
-	return (str);
+char *line = NULL;
+size_t bufsize = 0;
+if (getline(&line, &bufsize, stdin) == -1)
+{
+if (feof(stdin))
+exit(0);
+else
+{
+perror("readline");
+exit(EXIT_FAILURE);
+}
+}
+return line;
+}
+/**
+ * split_line - splits a line into tokens
+ * @line: input string
+ *
+ * Return: array of tokens (NULL-terminated)
+ */
+char **split_line(char *line)
+{
+int bufsize = MAX_ARGS, position = 0;
+char **tokens = malloc(bufsize * sizeof(char *));
+char *token;
+if (!tokens)
+{
+fprintf(stderr, "allocation error\n");
+exit(EXIT_FAILURE);
 }
 
-/**
- * tokenize - Splits a line into tokens (arguments)
- * @line: input command line (e.g., "ls -l /tmp")
- *
- * Return: NULL-terminated array of tokens
- */
-char **tokenize(char *line)
+token = strtok(line, DELIM);
+while (token != NULL)
 {
-	char **tokens = malloc(sizeof(char *) * 64);
-	char *token;
-	int i = 0;
-
-	if (!tokens || !line)
-		return (NULL);
-
-	token = strtok(line, " \t\n\r");
-	while (token)
-	{
-		tokens[i] = token;
-		i++;
-		token = strtok(NULL, " \t\n\r");
-	}
-	tokens[i] = NULL;
-	return (tokens);
+tokens[position++] = token;
+if (position >= bufsize)
+{
+bufsize += MAX_ARGS;
+tokens = realloc(tokens, bufsize * sizeof(char *));
+if (!tokens)
+{
+fprintf(stderr, "allocation error\n");
+exit(EXIT_FAILURE);
 }
-
-/**
- * free_tokens - Frees the tokens array (not the strings)
- * @tokens: array returned by tokenize
- */
-void free_tokens(char **tokens)
-{
-	free(tokens);
+}
+token = strtok(NULL, DELIM);
+}
+tokens[position] = NULL;
+return tokens;
 }
