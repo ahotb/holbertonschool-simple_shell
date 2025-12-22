@@ -21,8 +21,10 @@ void execute_command(char **args, char **av)
 	if (!path)
 	{
 		write(STDERR_FILENO, av[0], strlen(av[0]));
-		write(STDERR_FILENO, ": No such file or directory\n", 28);
-		return;
+		write(STDERR_FILENO, ": 1: ", 5);
+		write(STDERR_FILENO, args[0], strlen(args[0]));
+		write(STDERR_FILENO, ": not found\n", 12);
+		_exit(127);
 	}
 
 	while (args[i] != NULL && i < 63)
