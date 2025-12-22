@@ -2,42 +2,40 @@
 /**
  * execute_command - executes a command
  * @line: input string
- * @av: program arguments
+ * @av: argument vector
  */
-
 void execute_command(char *line, char **av)
 {
-	pid_t pid;
-	int status;
-	char *cmd_path;
+pid_t pid;
+char *path;
+char *argv_exec[2];
 
-	pid = fork();
-	if (pid == -1)
-	{
-		perror("fork");
-		return;
-	}
-	else if (pid == 0)
-	{
-		cmd_path = find_in_path(line);
-		if (cmd_path)
-		{
-			if (execve(cmd_path, tokenize(line), environ) == -1)
-			{
-				perror(av[0]);
-				free(cmd_path);
-				exit(EXIT_FAILURE);
-			}
-			free(cmd_path);
-		}
-		else
-		{
-			perror(av[0]);
-			exit(EXIT_FAILURE);
-		}
-	}
-	else
-	{
-		waitpid(pid, &status, 0);
-	}
+line = trim_spaces(line);
+if (!line || *line == '\0')
+return;
+path = find_in_path(line);
+if (!path)
+{
+write(STDERR_FILENO, av[0], strlen(av[0]));
+write(STDERR_FILENO, ": ", 2);
+write(STDERR_FILENO, line, strlen(line));
+write(STDERR_FILENO, ": not found\n", 12);
+return;
+}
+pid = fork();
+if (pid == -1)
+{
+free(path);
+return;
+}
+
+if (pid == 0)
+{
+argv_exec[0] = line;
+argv_exec[1] = NULL;
+execve(path, argv_exec, environ);
+_exit(127);
+}
+wait(NULL);
+free(path);
 }
