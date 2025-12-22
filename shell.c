@@ -1,15 +1,55 @@
 #include "hsh.h"
 
 /**
- * main - Entry point of the simple shell
- * @ac: argument count (unused)
- * @av: argument vector (program name)
+ * shell_loop - Main loop of the shell
+ * @av: argument vector (for error messages)
  *
- * Return: Always 0
+ * Description: Handles both interactive and non-interactive modes.
+ * Prints prompt only in interactive mode.
  */
-int main(int ac, char **av)
+void shell_loop(char **av)
 {
-	(void)ac;
-	shell_loop(av);
-	return (0);
+	char *line = NULL;
+	size_t len = 0;
+	ssize_t nread;
+	char **args;
+
+	while (1)
+	{
+
+		if (isatty(STDIN_FILENO))
+			write(STDOUT_FILENO, "$ ", 2);
+
+		nread = getline(&line, &len, stdin);
+		if (nread == -1)
+		{
+			if (isatty(STDIN_FILENO))
+				write(STDOUT_FILENO, "\n", 1);
+			break;
+		}
+
+		if (nread > 0 && line[nread - 1] == '\n')
+			line[nread - 1] = '\0';
+
+		line = trim_spaces(line);
+		if (*line == '\0')
+			continue;
+
+		args = tokenize(line);
+		if (args && args[0])
+		{
+			if (is_builtin(args))
+			{
+				if (handle_builtin(args, av[0]) == 1)
+					break;
+			}
+			else
+			{
+				execute_command(args, av);
+			}
+			free_tokens(args);
+		}
+	}
+
+	free(line);
 }
