@@ -4,4 +4,5 @@
 char *read_line(void);
 char **split_line(char *line);
 
-#endif
+#endif /* PARSE_H */
+
