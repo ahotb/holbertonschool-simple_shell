@@ -29,18 +29,7 @@ int handle_builtin(char **args, char *prog_name, int last_status)
 	(void)prog_name;
 
 	if (strcmp(args[0], "exit") == 0)
-		exit(last_status);
-
-	if (strcmp(args[0], "env") == 0)
 	{
-		int i = 0;
-		while (environ[i])
-		{
-			write(STDOUT_FILENO, environ[i], strlen(environ[i]));
-			write(STDOUT_FILENO, "\n", 1);
-			i++;
-		}
+		exit(last_status);
 	}
-	return (last_status);
 }
-
