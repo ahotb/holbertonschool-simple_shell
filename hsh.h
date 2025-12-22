@@ -17,7 +17,7 @@ char **tokenize(char *line);
 char *find_in_path(char *cmd);
 int is_builtin(char **args);
 int handle_builtin(char **args, char *prog_name);
-void execute_command(char **args, char **av);
+int execute_command(char **args, char **av);
 void free_tokens(char **tokens);
 char *trim_spaces(char *str);
 
