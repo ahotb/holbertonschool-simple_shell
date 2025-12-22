@@ -35,6 +35,7 @@ int handle_builtin(char **args, char *prog_name)
 	else if (strcmp(args[0], "env") == 0)
 	{
 		int i = 0;
+
 		while (environ[i])
 		{
 			write(STDOUT_FILENO, environ[i], strlen(environ[i]));
