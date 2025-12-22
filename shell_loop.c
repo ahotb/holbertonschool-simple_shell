@@ -1,26 +1,27 @@
 #include "hsh.h"
-
+/**
+ * shell_loop - main loop of the shell
+ * @av: program arguments
+ */
 void shell_loop(char **av)
 {
 	char *line = NULL;
 	size_t len = 0;
-	ssize_t nread;
+	ssize_t read;
 
 	while (1)
 	{
-		if (isatty(STDIN_FILENO))
-			write(STDOUT_FILENO, "#cisfun$ ", 9);
-		nread = getline(&line, &len, stdin);
-		if (nread == -1)
+		printf("$ ");
+		read = getline(&line, &len, stdin);
+		if (read == -1)
 		{
-			if (isatty(STDIN_FILENO))
-				write(STDOUT_FILENO, "\n", 1);
+			free(line);
 			break;
 		}
-		if (nread > 0 && line[nread - 1] == '\n')
-			line[nread - 1] = '\0';
 
-		execute_command(line, av);
+		line = trim_spaces(line);
+		if (strlen(line) > 0)
+			execute_command(line, av);
 	}
 
 	free(line);

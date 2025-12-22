@@ -10,8 +10,6 @@
 int main(int ac, char **av)
 {
 	(void)ac;
-
 	shell_loop(av);
-
 	return (0);
 }

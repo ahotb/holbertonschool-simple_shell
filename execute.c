@@ -8,45 +8,36 @@
 void execute_command(char *line, char **av)
 {
 	pid_t pid;
-	char *path;
-	char *argv_exec[2];
-
-	if (!line || *line == '\0')
-		return;
-
-	path = find_in_path(line);
-	if (!path)
-	{
-
-		write(STDERR_FILENO, av[0], strlen(av[0]));
-		write(STDERR_FILENO, ": No such file or directory\n", 28);
-		return;
-	}
+	int status;
+	char *cmd_path;
 
 	pid = fork();
 	if (pid == -1)
 	{
-		free(path);
+		perror("fork");
 		return;
 	}
 	else if (pid == 0)
 	{
-
-		argv_exec[0] = line;
-		argv_exec[1] = NULL;
-		if (execve(path, argv_exec, environ) == -1)
+		cmd_path = find_in_path(line[0]);
+		if (cmd_path)
 		{
-			write(STDERR_FILENO, av[0], strlen(av[0]));
-			write(STDERR_FILENO, ": No such file or directory\n", 28);
-			free(path);
-			_exit(127);
+			if (execve(cmd_path, line, environ) == -1)
+			{
+				perror(av[0]);
+				free(cmd_path);
+				exit(EXIT_FAILURE);
+			}
+			free(cmd_path);
+		}
+		else
+		{
+			perror(av[0]);
+			exit(EXIT_FAILURE);
 		}
 	}
 	else
 	{
-
-		wait(NULL);
+		waitpid(pid, &status, 0);
 	}
-
-	free(path);
 }
