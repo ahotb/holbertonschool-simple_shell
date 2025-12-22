@@ -11,7 +11,7 @@ char **tokenize(char *line)
 	char **tokens = NULL;
 	char *token;
 	size_t size = 0;
-	size_t index = 0;
+	
 
 	token = strtok(line, " \t");
 	while (token)

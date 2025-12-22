@@ -19,10 +19,10 @@ void execute_command(char *line, char **av)
 	}
 	else if (pid == 0)
 	{
-		cmd_path = find_in_path(line[0]);
+		cmd_path = find_in_path(line);
 		if (cmd_path)
 		{
-			if (execve(cmd_path, line, environ) == -1)
+			if (execve(cmd_path, tokenize(line), environ) == -1)
 			{
 				perror(av[0]);
 				free(cmd_path);
