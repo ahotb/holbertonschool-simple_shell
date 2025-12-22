@@ -9,6 +9,7 @@ void execute_command(char *line, char **av)
 {
 	pid_t pid;
 	char *path;
+	char *argv_exec[2];
 
 	if (!line || *line == '\0')
 		return;
@@ -31,7 +32,9 @@ void execute_command(char *line, char **av)
 	else if (pid == 0)
 	{
 
-		if (execve(path, (char *[]){line, NULL}, environ) == -1)
+		argv_exec[0] = line;
+		argv_exec[1] = NULL;
+		if (execve(path, argv_exec, environ) == -1)
 		{
 			write(STDERR_FILENO, av[0], strlen(av[0]));
 			write(STDERR_FILENO, ": No such file or directory\n", 28);
