@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include "builtins.h"
-
+char *find_in_path(char *cmd);
 extern char **environ;
 
 /**
