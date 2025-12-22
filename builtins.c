@@ -30,7 +30,7 @@ int handle_builtin(char **args, char *prog_name)
 
 	if (strcmp(args[0], "exit") == 0)
 	{
-		exit(0);
+		return (1);
 	}
 	else if (strcmp(args[0], "env") == 0)
 	{
