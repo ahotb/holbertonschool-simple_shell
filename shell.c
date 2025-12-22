@@ -9,9 +9,9 @@
  */
 int main(int ac, char **av)
 {
-(void)ac;
+	(void)ac;
 
-shell_loop(av);
+	shell_loop(av);
 
-return (0);
+	return (0);
 }
