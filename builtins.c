@@ -4,17 +4,20 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include "builtins.h"
-char *find_in_path(char *cmd);
+
 extern char **environ;
 
 /**
- * is_builtin - checks if command is a builtin
- * @args: command and arguments
+ * is_builtin - check if command is builtin
+ * @args: command and args
  *
  * Return: 1 if builtin, 0 otherwise
  */
 int is_builtin(char **args)
 {
+    if (!args || !args[0])
+        return 0;
+
     if (strcmp(args[0], "cd") == 0)
         return 1;
     if (strcmp(args[0], "exit") == 0)
@@ -23,13 +26,16 @@ int is_builtin(char **args)
 }
 
 /**
- * run_builtin - executes a builtin command
- * @args: command and arguments
+ * run_builtin - execute builtin command
+ * @args: command and args
  *
  * Return: exit code
  */
 int run_builtin(char **args)
 {
+    if (!args || !args[0])
+        return 1;
+
     if (strcmp(args[0], "cd") == 0)
     {
         if (args[1])
@@ -42,17 +48,16 @@ int run_builtin(char **args)
         return 0;
     }
     else if (strcmp(args[0], "exit") == 0)
-    {
         exit(0);
-    }
+
     return 1;
 }
 
 /**
- * find_in_path - searches PATH for executable
+ * find_in_path - search PATH for command
  * @cmd: command name
  *
- * Return: full path if found (must be freed), NULL otherwise
+ * Return: full path if found, NULL otherwise
  */
 char *find_in_path(char *cmd)
 {
@@ -88,8 +93,8 @@ char *find_in_path(char *cmd)
 }
 
 /**
- * launch - launches non-builtin command
- * @args: command and arguments
+ * launch - execute non-builtin command
+ * @args: command and args
  *
  * Return: exit status
  */

@@ -1,14 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "parse.h"
+#include "helpers.h"
 #include "builtins.h"
 
 /**
- * main - entry point for our shell
+ * main - simple shell
  * @argc: argument count
  * @argv: argument vector
  *
- * Return: 0 on success, or exit code
+ * Return: 0 on success
  */
 int main(int argc, char **argv)
 {
@@ -19,20 +20,23 @@ int main(int argc, char **argv)
     (void)argc;
     (void)argv;
 
-    while (status >= 0)
+    while (1)
     {
         printf(":) ");
         line = read_line();
         if (!line)
             break;
+
         args = split_line(line);
-        if (args[0])
+        if (!args)
         {
-            if (is_builtin(args))
-                status = run_builtin(args);
-            else
-                status = launch(args);
+            free(line);
+            continue;
         }
+
+        if (!handle_builtin(args))
+            status = launch(args);
+
         free(line);
         free(args);
     }

@@ -7,9 +7,9 @@
 #define DELIM " \t\r\n\a"
 
 /**
- * read_line - reads a line from stdin
+ * read_line - read a line from stdin
  *
- * Return: pointer to line (must be freed)
+ * Return: pointer to the line
  */
 char *read_line(void)
 {
@@ -33,7 +33,7 @@ char *read_line(void)
  * split_line - splits a line into tokens
  * @line: input string
  *
- * Return: array of tokens (NULL-terminated)
+ * Return: array of tokens (NULL terminated)
  */
 char **split_line(char *line)
 {
@@ -48,7 +48,7 @@ char **split_line(char *line)
     }
 
     token = strtok(line, DELIM);
-    while (token != NULL)
+    while (token)
     {
         tokens[position++] = token;
         if (position >= bufsize)
@@ -66,4 +66,3 @@ char **split_line(char *line)
     tokens[position] = NULL;
     return tokens;
 }
-
