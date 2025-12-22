@@ -1,5 +1,4 @@
 #include "hsh.h"
-
 /**
  * find_in_path - searches for a command in PATH
  * @cmd: command name
@@ -8,10 +7,11 @@
  */
 char *find_in_path(char *cmd)
 {
-char *path_env;
 char *path_copy;
 char *dir;
 char *full_path;
+char *path_env;
+int i;
 
 if (!cmd || !*cmd)
 return (NULL);
@@ -21,7 +21,16 @@ if (access(cmd, X_OK) == 0)
 return (strdup(cmd));
 return (NULL);
 }
-path_env = getenv("PATH");
+path_env = NULL;
+for (i = 0; environ[i]; i++)
+{
+if (strncmp(environ[i], "PATH=", 5) == 0)
+{
+path_env = environ[i] + 5;
+break;
+}
+}
+
 if (!path_env)
 return (NULL);
 path_copy = strdup(path_env);
@@ -45,4 +54,3 @@ dir = strtok(NULL, ":");
 free(path_copy);
 return (NULL);
 }
-
