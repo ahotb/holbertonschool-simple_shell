@@ -12,6 +12,7 @@ void shell_loop(char **av)
 	char *line = NULL, *orig, **args;
 	size_t len = 0;
 	ssize_t nread;
+	int last_status = 0;
 
 	while (1)
 	{
@@ -22,25 +23,23 @@ void shell_loop(char **av)
 		if (nread == -1)
 			break;
 
-		if (nread && line[nread - 1] == '\n')
+		if (line[nread - 1] == '\n')
 			line[nread - 1] = '\0';
 
 		orig = line;
 		line = trim_spaces(line);
+
 		if (*line)
 		{
 			args = tokenize(line);
-			if (args && is_builtin(args) && handle_builtin(args, av[0]))
-			{
-				free_tokens(args);
-				break;
-			}
-			if (args && !is_builtin(args))
-				execute_command(args, av);
+			if (args && is_builtin(args))
+				last_status = handle_builtin(args, av[0], last_status);
+			else if (args)
+				last_status = execute_command(args, av);
+
 			free_tokens(args);
 		}
 		line = orig;
 	}
 	free(line);
-	exit(0);
 }

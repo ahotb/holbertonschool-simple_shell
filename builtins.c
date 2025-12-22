@@ -24,18 +24,16 @@ int is_builtin(char **args)
  *
  * Return: 1 if exit command, 0 otherwise
  */
-int handle_builtin(char **args, char *prog_name)
+int handle_builtin(char **args, char *prog_name, int last_status)
 {
 	(void)prog_name;
 
 	if (strcmp(args[0], "exit") == 0)
-	{
-		return (1);
-	}
-	else if (strcmp(args[0], "env") == 0)
+		exit(last_status);
+
+	if (strcmp(args[0], "env") == 0)
 	{
 		int i = 0;
-
 		while (environ[i])
 		{
 			write(STDOUT_FILENO, environ[i], strlen(environ[i]));
@@ -43,5 +41,6 @@ int handle_builtin(char **args, char *prog_name)
 			i++;
 		}
 	}
-	return (0);
+	return (last_status);
 }
+

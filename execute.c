@@ -11,8 +11,9 @@ int execute_command(char **args, char **av)
 {
 	char *path;
 	pid_t pid;
+	int status;
 	char *argv_exec[64];
-	int i = 0, status;
+	int i = 0;
 
 	if (!args || !args[0])
 		return (0);
@@ -28,19 +29,24 @@ int execute_command(char **args, char **av)
 	}
 
 	while (args[i] && i < 63)
-		argv_exec[i] = args[i], i++;
+	{
+		argv_exec[i] = args[i];
+		i++;
+	}
 	argv_exec[i] = NULL;
 
 	pid = fork();
 	if (pid == 0)
 	{
 		execve(path, argv_exec, environ);
-		write(STDERR_FILENO, av[0], strlen(av[0]));
-		write(STDERR_FILENO, ": No such file or directory\n", 28);
 		_exit(127);
 	}
-	wait(&status);
-	free(path);
-
-	return (WIFEXITED(status) ? WEXITSTATUS(status) : 0);
+	else
+	{
+		wait(&status);
+		free(path);
+		if (WIFEXITED(status))
+			return (WEXITSTATUS(status));
+	}
+	return (0);
 }
