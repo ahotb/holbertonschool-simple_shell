@@ -8,53 +8,35 @@
  */
 char *find_in_path(char *cmd)
 {
-	char *path_env = NULL, *path_copy, *dir, *full_path;
-	struct stat st;
+	char *path, *copy, *dir, *full;
 	int i = 0;
 
 	if (!cmd || !*cmd)
 		return (NULL);
 
 	if (strchr(cmd, '/'))
-	{
-		if (stat(cmd, &st) == 0 && S_ISREG(st.st_mode) && (st.st_mode & S_IXUSR))
-			return (strdup(cmd));
-		return (NULL);
-	}
+		return (access(cmd, X_OK) == 0 ? strdup(cmd) : NULL);
 
-	while (environ[i] != NULL)
-	{
-		if (strncmp(environ[i], "PATH=", 5) == 0)
-		{
-			path_env = environ[i] + 5;
-			break;
-		}
+	while (environ[i] && strncmp(environ[i], "PATH=", 5))
 		i++;
-	}
-	if (!path_env)
+	if (!environ[i])
 		return (NULL);
 
-	path_copy = strdup(path_env);
-	if (!path_copy)
+	copy = strdup(environ[i] + 5);
+	if (!copy)
 		return (NULL);
 
-	dir = strtok(path_copy, ":");
+	dir = strtok(copy, ":");
 	while (dir)
 	{
-		full_path = malloc(strlen(dir) + strlen(cmd) + 2);
-		if (!full_path)
+		full = malloc(strlen(dir) + strlen(cmd) + 2);
+		if (!full)
 			break;
-		sprintf(full_path, "%s/%s", dir, cmd);
-
-		if (stat(full_path, &st) == 0 && S_ISREG(st.st_mode) && (st.st_mode & S_IXUSR))
-		{
-			free(path_copy);
-			return (full_path);
-		}
-		free(full_path);
+		sprintf(full, "%s/%s", dir, cmd);
+		if (access(full, X_OK) == 0)
+			return (free(copy), full);
+		free(full);
 		dir = strtok(NULL, ":");
 	}
-
-	free(path_copy);
-	return (NULL);
+	return (free(copy), NULL);
 }

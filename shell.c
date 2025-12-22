@@ -9,14 +9,13 @@
  */
 void shell_loop(char **av)
 {
-	char *line = NULL;
+	char *line = NULL, *orig;
 	size_t len = 0;
 	ssize_t nread;
 	char **args;
 
 	while (1)
 	{
-
 		if (isatty(STDIN_FILENO))
 			write(STDOUT_FILENO, "$ ", 2);
 
@@ -31,25 +30,24 @@ void shell_loop(char **av)
 		if (nread > 0 && line[nread - 1] == '\n')
 			line[nread - 1] = '\0';
 
+		orig = line;
 		line = trim_spaces(line);
-		if (*line == '\0')
-			continue;
-
-		args = tokenize(line);
-		if (args && args[0])
+		if (*line)
 		{
-			if (is_builtin(args))
+			args = tokenize(line);
+			if (args)
 			{
-				if (handle_builtin(args, av[0]) == 1)
-					break;
+				if (is_builtin(args))
+				{
+					if (handle_builtin(args, av[0]))
+						break;
+				}
+				else
+					execute_command(args, av);
+				free_tokens(args);
 			}
-			else
-			{
-				execute_command(args, av);
-			}
-			free_tokens(args);
 		}
+		line = orig;
 	}
-
 	free(line);
 }
