@@ -12,7 +12,6 @@ void shell_loop(char **av)
 	char *line = NULL, *orig, **args;
 	size_t len = 0;
 	ssize_t nread;
-	int status = 0;
 
 	while (1)
 	{
@@ -32,13 +31,9 @@ void shell_loop(char **av)
 		{
 			args = tokenize(line);
 			if (args && is_builtin(args) && handle_builtin(args, av[0]))
-			{
 				break;
-				if (args && !is_builtin(args))
-					status = execute_command(args, av);
-				if (!isatty(STDIN_FILENO) && status == 127)
-					exit(127);
-			}
+			if (args && !is_builtin(args))
+				execute_command(args, av);
 			free_tokens(args);
 		}
 		line = orig;
