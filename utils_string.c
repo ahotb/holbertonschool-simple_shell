@@ -16,6 +16,14 @@ int _strlen(char *s)
 	return (i);
 }
 
+/**
+*_strcmp - compares two strings
+*@s1: first string
+*@s2: second string
+* Return: 0 if the strings are equal,
+*a negative value if s1 is less than s2,
+*a positive value if s1 is greater than s2
+*/
 int _strcmp(char *s1, char *s2)
 {
 	int i = 0;
@@ -77,4 +85,30 @@ int _has_char(char *s, char c)
 		i++;
 	}
 	return (0);
+}
+
+/*
+ * _atoi - converts a string to an integer
+ * This function replaces the standard atoi, which is forbidden.
+ */
+int _atoi(char *s)
+{
+int i = 0, sign = 1, num = 0;
+
+if (!s)
+return 0;
+
+if (s[0] == '-')
+{
+sign = -1;
+i++;
+}
+
+for (; s[i]; i++)
+{
+if (s[i] < '0' || s[i] > '9')
+break;
+num = num * 10 + (s[i] - '0');
+}
+return sign * num;
 }

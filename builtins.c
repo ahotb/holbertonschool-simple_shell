@@ -28,7 +28,7 @@ int handle_builtin(char **args, char *prog, int last_status)
 	{
 		if (!args[1])
 			return (-last_status - 1);
-		return (-atoi(args[1]) - 1);
+		return (-_atoi(args[1]) - 1);
 	}
 
 	if (_strcmp(args[0], "env") == 0)
@@ -42,4 +42,3 @@ int handle_builtin(char **args, char *prog, int last_status)
 	}
 	return (last_status);
 }
-
