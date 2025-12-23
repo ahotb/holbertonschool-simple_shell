@@ -19,7 +19,7 @@ void shell_loop(char **av)
 		if (isatty(STDIN_FILENO))
 			write(STDOUT_FILENO, "$ ", 2);
 
-		nread = getline(&line, &len, stdin);
+		nread = _getline(&line);
 		if (nread == -1)
 			break;
 

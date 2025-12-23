@@ -20,5 +20,6 @@ int handle_builtin(char **args, char *prog_name, int last_status);
 int execute_command(char **args, char **av);
 void free_tokens(char **tokens);
 char *trim_spaces(char *str);
+ssize_t _getline(char **lineptr);
 
 #endif /* HSH_H */
