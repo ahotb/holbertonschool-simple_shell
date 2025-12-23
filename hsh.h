@@ -1,5 +1,6 @@
 #ifndef HSH_H
 #define HSH_H
+#define MAX_TOKENS 64
 
 #include <stdio.h>
 #include <stdlib.h>
