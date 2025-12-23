@@ -38,7 +38,7 @@ int handle_builtin(char **args, char *prog_name, int last_status)
 	{
 
 		if (args[1] == NULL)
-			return (-1);
+			return (last_status * -1 - 1);
 		else
 			return (atoi(args[1]) * -1 - 1);
 	}
