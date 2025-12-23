@@ -8,7 +8,7 @@
  */
 char *find_in_path(char *cmd)
 {
-	char *path, *copy, *dir, *full;
+	char *copy, *dir, *full;
 	int i = 0, j, k;
 
 	if (!cmd || !cmd[0])
