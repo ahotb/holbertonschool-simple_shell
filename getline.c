@@ -11,7 +11,7 @@ ssize_t _getline(char **lineptr)
 	static char buffer[BUFFER_SIZE];
 	static ssize_t buf_len, buf_pos;
 	char *line, *new;
-	ssize_t len = 0, i;
+	ssize_t len = 0, i, j;
 
 	if (!lineptr)
 		return (-1);
@@ -41,7 +41,7 @@ ssize_t _getline(char **lineptr)
 			if (!new)
 				return (-1);
 
-			for (ssize_t j = 0; j < len; j++)
+			for (j = 0; j < len; j++)
 				new[j] = line[j];
 			new[len++] = buffer[i];
 			new[len] = '\0';
