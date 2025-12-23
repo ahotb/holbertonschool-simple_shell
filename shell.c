@@ -48,4 +48,6 @@ void shell_loop(char **av)
 		}
 		line = orig;
 	}
+		if(line)
+		free(line);
 }
