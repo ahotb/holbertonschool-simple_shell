@@ -9,50 +9,37 @@
 int is_builtin(char **args)
 {
 	if (!args || !args[0])
-
 		return (0);
 
-	if (strcmp(args[0], "exit") == 0)
-
+	if (_strcmp(args[0], "exit") == 0)
 		return (1);
-
-	if (strcmp(args[0], "env") == 0)
-
+	if (_strcmp(args[0], "env") == 0)
 		return (1);
 
 	return (0);
 }
 
-/**
- * handle_builtin - Executes built-in commands
- * @args: tokenized command
- * @prog_name: program name for errors (not used here)
- *
- * Return: 1 if exit command, 0 otherwise
- */
-int handle_builtin(char **args, char *prog_name, int last_status)
+int handle_builtin(char **args, char *prog, int last_status)
 {
-	(void)prog_name;
+	int i = 0;
+	(void)prog;
 
-	if (strcmp(args[0], "exit") == 0)
+	if (_strcmp(args[0], "exit") == 0)
 	{
-
-		if (args[1] == NULL)
-			return (last_status * -1 - 1);
-		else
-			return (atoi(args[1]) * -1 - 1);
+		if (!args[1])
+			return (-last_status - 1);
+		return (-atoi(args[1]) - 1);
 	}
-	else if (strcmp(args[0], "env") == 0)
+
+	if (_strcmp(args[0], "env") == 0)
 	{
-		int i = 0;
 		while (environ[i])
 		{
-			write(STDOUT_FILENO, environ[i], strlen(environ[i]));
-			write(STDOUT_FILENO, "\n", 1);
+			write(1, environ[i], _strlen(environ[i]));
+			write(1, "\n", 1);
 			i++;
 		}
-		return (last_status);
 	}
-
 	return (last_status);
 }
+

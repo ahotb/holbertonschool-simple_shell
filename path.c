@@ -8,35 +8,47 @@
  */
 char *find_in_path(char *cmd)
 {
-	char *copy, *dir, *full;
-	int i = 0;
+	char *path, *copy, *dir, *full;
+	int i = 0, j, k;
 
-	if (!cmd || !*cmd)
+	if (!cmd || !cmd[0])
 		return (NULL);
 
-	if (strchr(cmd, '/'))
-		return (access(cmd, X_OK) == 0 ? strdup(cmd) : NULL);
+	if (_has_char(cmd, '/'))
+		return (access(cmd, X_OK) == 0 ? _strdup(cmd) : NULL);
 
-	while (environ[i] && strncmp(environ[i], "PATH=", 5))
+	while (environ[i] && _strcmp(environ[i], "PATH=") != 0)
 		i++;
+
 	if (!environ[i])
 		return (NULL);
 
-	copy = strdup(environ[i] + 5);
-	if (!copy)
-		return (NULL);
-
+	copy = _strdup(environ[i] + 5);
 	dir = strtok(copy, ":");
+
 	while (dir)
 	{
-		full = malloc(strlen(dir) + strlen(cmd) + 2);
+		full = malloc(_strlen(dir) + _strlen(cmd) + 2);
 		if (!full)
 			break;
-		sprintf(full, "%s/%s", dir, cmd);
+
+		j = 0;
+		while (dir[j])
+			full[j] = dir[j], j++;
+
+		full[j++] = '/';
+		k = 0;
+		while (cmd[k])
+			full[j++] = cmd[k++];
+
+		full[j] = '\0';
+
 		if (access(full, X_OK) == 0)
 			return (free(copy), full);
+
 		free(full);
 		dir = strtok(NULL, ":");
 	}
-	return (free(copy), NULL);
+	free(copy);
+	return (NULL);
 }

@@ -8,51 +8,57 @@
  */
 ssize_t _getline(char **lineptr)
 {
-static char buffer[BUFFER_SIZE];
-static ssize_t buf_len = 0;
-static ssize_t buf_pos = 0;
-char *line;
-ssize_t line_len = 0;
-ssize_t i;
+	static char buffer[BUFFER_SIZE];
+	static ssize_t buf_len, buf_pos;
+	char *line, *new;
+	ssize_t len = 0, i;
 
-if (!lineptr)
-return (-1);
+	if (!lineptr)
+		return (-1);
 
-line = malloc(1);
-if (!line)
-return (-1);
+	line = malloc(1);
+	if (!line)
+		return (-1);
 
-while (1)
-{
-if (buf_pos >= buf_len)
-{
-buf_len = read(STDIN_FILENO, buffer, BUFFER_SIZE);
-buf_pos = 0;
-if (buf_len <= 0)
-{
-if (line_len > 0)
-break;
-free(line);
-return (-1);
+	while (1)
+	{
+		if (buf_pos >= buf_len)
+		{
+			buf_len = read(STDIN_FILENO, buffer, BUFFER_SIZE);
+			buf_pos = 0;
+			if (buf_len <= 0)
+			{
+				if (len > 0)
+					break;
+				free(line);
+				return (-1);
+			}
+		}
+
+		for (i = buf_pos; i < buf_len; i++)
+		{
+			new = malloc(len + 2);
+			if (!new)
+				return (-1);
+
+			for (ssize_t j = 0; j < len; j++)
+				new[j] = line[j];
+			new[len++] = buffer[i];
+			new[len] = '\0';
+			free(line);
+			line = new;
+
+			if (buffer[i] == '\n')
+			{
+				i++;
+				break;
+			}
+		}
+		buf_pos = i;
+		if (line[len - 1] == '\n')
+			break;
+	}
+	*lineptr = line;
+	return (len);
 }
-}
-for (i = buf_pos; i < buf_len; i++)
-{
-line = realloc(line, line_len + 2);
-if (!line)
-return (-1);
-line[line_len++] = buffer[i];
-if (buffer[i] == '\n')
-{
-i++;
-break;
-}
-}
-buf_pos = i;
-if (line_len > 0 && line[line_len - 1] == '\n')
-break;
-}
-line[line_len] = '\0';
-*lineptr = line;
-return (line_len);
-}
+
