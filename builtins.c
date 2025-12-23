@@ -9,17 +9,17 @@
 int is_builtin(char **args)
 {
 	if (!args || !args[0])
-	{
+
 		return (0);
-	}
+
 	if (strcmp(args[0], "exit") == 0)
-	{
+
 		return (1);
-	}
+
 	if (strcmp(args[0], "env") == 0)
-	{
+
 		return (1);
-	}
+
 	return (0);
 }
 
@@ -38,4 +38,5 @@ int handle_builtin(char **args, char *prog_name, int last_status)
 	{
 		exit(last_status);
 	}
+	return (0);
 }
