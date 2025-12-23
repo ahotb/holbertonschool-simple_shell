@@ -38,9 +38,9 @@ int handle_builtin(char **args, char *prog_name, int last_status)
 	{
 
 		if (args[1] == NULL)
-			return (0);
+			return (-1);
 		else
-			return (atoi(args[0]) * -1 - 1);
+			return (atoi(args[1]) * -1 - 1);
 	}
 	else if (strcmp(args[0], "env") == 0)
 	{
