@@ -35,22 +35,35 @@ char *trim_spaces(char *str)
  */
 char **tokenize(char *line)
 {
-	char **tokens = malloc(sizeof(char *) * 64);
-	char *token;
-	int i = 0;
+char **tokenize(char *line)
+{
+    char **tokens = malloc(sizeof(char *) * MAX_TOKENS);
+    int i = 0, start, end;
 
-	if (!tokens || !line)
-		return (NULL);
+    if (!line || !tokens)
+        return NULL;
 
-	token = strtok(line, " \t\n\r");
-	while (token)
-	{
-		tokens[i] = token;
-		i++;
-		token = strtok(NULL, " \t\n\r");
-	}
-	tokens[i] = NULL;
-	return (tokens);
+    start = 0;
+    while (line[start])
+    {تاب
+        while (line[start] == ' ' || line[start] == '\t')
+            start++;
+
+        if (!line[start])
+            break;�
+        end = start;
+        while (line[end] != ' ' && line[end] != '\t' && line[end] != '\0')
+            end++;
+        line[end] = '\0';ة
+        tokens[i++] = &line[start];ة
+        start = end + 1;
+    }
+ة
+    tokens[i] = NULL;
+
+    return tokens;
+}
+
 }
 
 /**
