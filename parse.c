@@ -34,8 +34,7 @@ char *trim_spaces(char *str)
  * Return: NULL-terminated array of tokens
  */
 char **tokenize(char *line)
-{
-char **tokenize(char *line)
+
 {
     char **tokens = malloc(sizeof(char *) * MAX_TOKENS);
     int i = 0, start, end;
@@ -45,16 +44,16 @@ char **tokenize(char *line)
 
     start = 0;
     while (line[start])
-    {تاب
+    {
         while (line[start] == ' ' || line[start] == '\t')
             start++;
 
         if (!line[start])
-            break;�
+            break;
         end = start;
         while (line[end] != ' ' && line[end] != '\t' && line[end] != '\0')
             end++;
-        line[end] = '\0';ة
+        line[end] = '\0';�
         tokens[i++] = &line[start];ة
         start = end + 1;
     }
@@ -64,7 +63,7 @@ char **tokenize(char *line)
     return tokens;
 }
 
-}
+
 
 /**
  * free_tokens - Frees the tokens array (not the strings)
