@@ -10,7 +10,6 @@
 void shell_loop(char **av)
 {
 	char *line = NULL, *orig, **args;
-	size_t len = 0;
 	ssize_t nread;
 	int last_status = 0;
 
