@@ -26,5 +26,6 @@ int _strlen(char *s);
 int _strcmp(char *s1, char *s2);
 char *_strdup(char *s);
 int _has_char(char *s, char c);
+int _atoi(char *s);
 
 #endif /* HSH_H */
