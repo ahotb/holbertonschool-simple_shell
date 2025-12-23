@@ -33,7 +33,15 @@ void shell_loop(char **av)
 		{
 			args = tokenize(line);
 			if (args && is_builtin(args))
+			{
 				last_status = handle_builtin(args, av[0], last_status);
+				if (last_status < 0)
+				{
+					free_tokens(args);
+					free(line);
+					exit((-last_status) - 1);
+				}
+			}
 			else if (args)
 				last_status = execute_command(args, av);
 
@@ -41,5 +49,4 @@ void shell_loop(char **av)
 		}
 		line = orig;
 	}
-	free(line);
 }

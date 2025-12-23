@@ -38,13 +38,9 @@ int handle_builtin(char **args, char *prog_name, int last_status)
 	{
 
 		if (args[1] == NULL)
-			exit(0);
-
+			return (0);
 		else
-		{
-
-			exit(atoi(args[1]));
-		}
+			return (atoi(args[0]) * -1 - 1);
 	}
 	else if (strcmp(args[0], "env") == 0)
 	{
@@ -55,7 +51,7 @@ int handle_builtin(char **args, char *prog_name, int last_status)
 			write(STDOUT_FILENO, "\n", 1);
 			i++;
 		}
-		return (0);
+		return (last_status);
 	}
 
 	return (last_status);
