@@ -61,4 +61,3 @@ ssize_t _getline(char **lineptr)
 	*lineptr = line;
 	return (len);
 }
-

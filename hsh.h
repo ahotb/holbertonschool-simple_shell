@@ -21,5 +21,9 @@ int execute_command(char **args, char **av);
 void free_tokens(char **tokens);
 char *trim_spaces(char *str);
 ssize_t _getline(char **lineptr);
+int _strlen(char *s);
+int _strcmp(char *s1, char *s2);
+char *_strdup(char *s);
+int _has_char(char *s, char c);
 
 #endif /* HSH_H */
