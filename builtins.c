@@ -27,6 +27,7 @@ int handle_builtin(char **args, char *prog, int last_status)
 	{
 		if (!args[1])
 			return (-last_status - 1);
+	if (args[1][0] == '-')
 	while (args[1][i])
 {
 if (args[1][i] < '0' || args[1][i] > '9')
