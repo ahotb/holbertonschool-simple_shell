@@ -26,14 +26,14 @@ int handle_builtin(char **args, char *prog, int last_status)
 	if (_strcmp(args[0], "exit") == 0)
 	{
 		if (!args[1])
-			return (-last_status - 1);
+			 exit(last_status);
 	if (args[1][0] == '-')
 {
 write(2, prog, _strlen(prog));
 write(2, ": 1: exit: Illegal number: ", 27);
 write(2, args[1], _strlen(args[1]));
 write(2, "\n", 1);
-exit(-last_status);
+exit(last_status);
 }
 	while (args[1][i])
 {
@@ -43,11 +43,11 @@ write(2, prog, _strlen(prog));
 write(2, ": exit: ", 8);
 write(2, args[1], _strlen(args[1]));
 write(2, ": numeric argument required\n", 28);
-return (2);
+exit(last_status);
 }
 i++;
 }
-return (-_atoi(args[1]) - 1);
+return (_atoi(args[1]));
 }
 
 	if (_strcmp(args[0], "env") == 0)
@@ -58,6 +58,7 @@ return (-_atoi(args[1]) - 1);
 			write(1, "\n", 1);
 			i++;
 		}
+		return (last_status);
 	}
 	return (last_status);
 }
