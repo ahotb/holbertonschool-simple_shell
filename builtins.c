@@ -22,14 +22,25 @@ int is_builtin(char **args)
 int handle_builtin(char **args, char *prog, int last_status)
 {
 	int i = 0;
-	(void)prog;
 
 	if (_strcmp(args[0], "exit") == 0)
 	{
 		if (!args[1])
 			return (-last_status - 1);
-		return (-_atoi(args[1]) - 1);
-	}
+	while (args[1][i])
+{
+if (args[1][i] < '0' || args[1][i] > '9')
+{
+write(2, prog, _strlen(prog));
+write(2, ": exit: ", 8);
+write(2, args[1], _strlen(args[1]));
+write(2, ": numeric argument required\n", 28);
+return (2);
+}
+i++;
+}
+return (-_atoi(args[1]) - 1);
+}
 
 	if (_strcmp(args[0], "env") == 0)
 	{
