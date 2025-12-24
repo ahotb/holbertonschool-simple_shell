@@ -33,7 +33,7 @@ write(2, prog, _strlen(prog));
 write(2, ": 1: exit: Illegal number: ", 27);
 write(2, args[1], _strlen(args[1]));
 write(2, "\n", 1);
-return (2);
+exit(2);
 }
 	while (args[1][i])
 {
