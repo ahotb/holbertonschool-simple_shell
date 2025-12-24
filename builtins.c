@@ -47,7 +47,7 @@ exit(2);
 }
 i++;
 }
-return (_atoi(args[1]));
+return (_atoi(args[1]) % 256);
 }
 
 	if (_strcmp(args[0], "env") == 0)
