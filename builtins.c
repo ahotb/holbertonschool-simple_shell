@@ -33,7 +33,7 @@ write(2, prog, _strlen(prog));
 write(2, ": 1: exit: Illegal number: ", 27);
 write(2, args[1], _strlen(args[1]));
 write(2, "\n", 1);
-exit(2);
+exit(last_status);
 }
 	while (args[1][i])
 {
@@ -43,7 +43,7 @@ write(2, prog, _strlen(prog));
 write(2, ": exit: ", 8);
 write(2, args[1], _strlen(args[1]));
 write(2, ": numeric argument required\n", 28);
-exit(2);
+exit(last_status);
 }
 i++;
 }
