@@ -27,9 +27,19 @@ int execute_command(char **args, char **av)
 	}
 
 	pid = fork();
+	if (pid == -1)
+	{
+		perror("fork");
+		free(path);
+		return (1);
+	}
 	if (pid == 0)
+	{
 		execve(path, args, environ);
-
+		perror("execve");
+		free(path);
+		exit(127);
+	}
 	wait(&status);
 	free(path);
 	return (WIFEXITED(status) ? WEXITSTATUS(status) : 0);
