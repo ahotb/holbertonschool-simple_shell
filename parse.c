@@ -35,28 +35,37 @@ char *trim_spaces(char *str)
  */
 char **tokenize(char *line)
 {
-char **tokens = malloc(sizeof(char *) * MAX_TOKENS);
-int i = 0, start, end;
+	char **tokens = malloc(sizeof(char *) * MAX_TOKENS), *token;
+	int i = 0, start, end, token_len, j;
 
-if (!line || !tokens)
-return NULL;
-start = 0;
-while (line[start])
-{
-while (line[start] == ' ' || line[start] == '\t')
-start++;
-if (!line[start])
-break;
-end = start;
-while (line[end] != ' ' && line[end] != '\t' && line[end] != '\0')
-end++;
-line[end] = '\0';
-tokens[i++] = &line[start];
-start = end + 1;
-}
-tokens[i] = NULL;
+	if (!line || !tokens)
+		return (NULL);
+	start = 0;
+	while (line[start])
+	{
+		while (line[start] == ' ' || line[start] == '\t')
+			start++;
+		if (!line[start])
+			break;
+		end = start;
+		while (line[end] != ' ' && line[end] != '\t' && line[end] != '\0')
+			end++;
 
-return tokens;
+		token_len = end - start;
+		token = malloc(token_len + 1);
+		if (!token)
+			return (NULL);
+
+		for (j = 0; j < token_len; j++)
+			token[j] = line[start + j];
+		token[token_len] = '\0';
+
+		tokens[i++] = token;
+		start = end;
+	}
+	tokens[i] = NULL;
+
+	return tokens;
 }
 
 /**
@@ -65,5 +74,15 @@ return tokens;
  */
 void free_tokens(char **tokens)
 {
-	free(tokens);
+	int i = 0;
+
+	if (!tokens)
+		return;
+
+		while (tokens[i])
+		{
+			free(tokens[i]);
+			i++;
+		}
+		free(tokens);
 }
