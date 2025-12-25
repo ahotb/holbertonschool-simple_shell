@@ -11,7 +11,7 @@ void shell_loop(char **av)
 {
 	char *line = NULL, *orig, **args;
 	ssize_t nread;
-	int last_status = 0;
+	int last_status = 0, should_exit = 0, exit_code = 0;
 
 	while (1)
 	{
@@ -40,6 +40,15 @@ void shell_loop(char **av)
 				if (is_builtin(args))
 				{
 					last_status = handle_builtin(args, av[0], last_status);
+					if (_strcmp(args[0], "exit") == 0)
+					{
+						exit_code = last_status;
+						if (exit_code > 256)
+						{
+							exit_code = exit_code & 0xff;
+							should_exit = 1;
+						}
+					}
 				}
 				else
 				{
@@ -49,8 +58,12 @@ void shell_loop(char **av)
 			}
 		}
 		line = orig;
+		if (should_exit)
+			break;
 	}
 
 	if (line)
 		free(line);
+
+	exit(exit_code);
 }
