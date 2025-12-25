@@ -34,7 +34,7 @@ int handle_builtin(char **args, char *prog, int last_status)
 				write(2, ": 1: exit: Illegal number: ", 27);
 				write(2, args[1], _strlen(args[1]));
 				write(2, "\n", 1);
-				exit(2);
+				return(2);
 			}
 			i = 0;
 			while (args[1][i])
@@ -45,13 +45,13 @@ int handle_builtin(char **args, char *prog, int last_status)
 					write(2, ": exit: ", 11);
 					write(2, args[1], _strlen(args[1]));
 					write(2, ": numeric argument required\n", 28);
-					exit(2);
+					return(2);
 				}
 				i++;
 			}
 			code = (_atoi(args[1]) % 256);
 		}
-		exit(code);
+		return(code | 256);
 	}
 
 	if (_strcmp(args[0], "env") == 0)
