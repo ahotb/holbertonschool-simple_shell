@@ -15,6 +15,9 @@ void shell_loop(char **av)
 
 	while (1)
 	{
+		if (line)
+			free(line);
+
 		if (isatty(STDIN_FILENO))
 			write(STDOUT_FILENO, "$ ", 2);
 
@@ -31,23 +34,23 @@ void shell_loop(char **av)
 		if (*line)
 		{
 
-		args = tokenize(line);
-            if (args)
-            {
-                if (is_builtin(args))
-                {
-                    last_status = handle_builtin(args, av[0], last_status);
-                }
-                else
-                {
-                    last_status = execute_command(args, av);
-                }
-                free_tokens(args);
-            }
-        }
-        line = orig;
-    }
+			args = tokenize(line);
+			if (args)
+			{
+				if (is_builtin(args))
+				{
+					last_status = handle_builtin(args, av[0], last_status);
+				}
+				else
+				{
+					last_status = execute_command(args, av);
+				}
+				free_tokens(args);
+			}
+		}
+		line = orig;
+	}
 
-    if (line)
-        free(line);
+	if (line)
+		free(line);
 }
