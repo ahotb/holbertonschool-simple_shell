@@ -38,7 +38,7 @@ It provides a minimal implementation of basic shell functionalities, allowing us
 ## Compilation  
 Compile the shell using:
 ```bash
-gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh
+gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh``
 
 --
 ## Usage Examples
@@ -50,7 +50,7 @@ $ exitNon-Interactive Mode
 --
 ## Non-Interactive Mode
 $ echo "/bin/ls" | ./hsh
----
+--
 ## Built-in Commands
 | Command         | Description                                |
 | --------------- | ------------------------------------------ |
