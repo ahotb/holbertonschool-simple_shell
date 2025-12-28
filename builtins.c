@@ -19,6 +19,14 @@ int is_builtin(char **args)
 	return (0);
 }
 
+/**
+ * handle_builtin - Executes a built-in command
+ * @args: tokenized command
+ * @prog: program name (for error messages)
+ * @last_status: last command exit status
+ *
+ * Return: exit status of built-in command
+ */
 int handle_builtin(char **args, char *prog, int last_status)
 {
 	int i = 0, code;
