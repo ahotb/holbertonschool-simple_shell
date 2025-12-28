@@ -17,6 +17,7 @@ void shell_loop(char **av)
 	{
 		if (line)
 			free(line);
+		line = NULL;
 
 		if (isatty(STDIN_FILENO))
 			write(STDOUT_FILENO, "$ ", 2);
@@ -59,9 +60,11 @@ void shell_loop(char **av)
 		}
 		line = orig;
 		if (should_exit)
+
 			break;
 	}
-	line = NULL;
+	if (line)
+		free(line);
 
 	exit(exit_code);
 }
