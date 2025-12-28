@@ -1,8 +1,10 @@
 # Simple Shell
+
 ## Description
 
-Simple Shell is a UNIX command line interpreter implemented in the C programming language.
+Simple Shell is a UNIX command line interpreter implemented in the C programming language.  
 It provides a minimal implementation of basic shell functionalities, allowing users to execute commands and interact with the operating system.
+
 ---
 
 ## File
@@ -22,6 +24,7 @@ It provides a minimal implementation of basic shell functionalities, allowing us
 | `AUTHORS`            | List of contributors             |
 
 ---
+
 ## Table of Contents
 - [Description](#description)
 - [Learning Objectives](#learning-objectives)
@@ -35,12 +38,15 @@ It provides a minimal implementation of basic shell functionalities, allowing us
 - [AUTHORS](#authors)
 
 ---
-## Compilation  
-Compile the shell using:
-```bash
-gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh``
 
---
+## Compilation  
+
+Compile the shell using:
+
+```bash
+gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh
+````--
+
 ## Usage Examples
 Interactive Mode
 $ ./hsh
