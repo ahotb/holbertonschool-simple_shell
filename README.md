@@ -1,22 +1,27 @@
-# Simple Shell (hsh)
+# Simple Shell
+## Description
 
-A simple UNIX command-line interpreter written in C that replicates the basic functionality of `/bin/sh`.
----
-## File Structure
-.
-├── AUTHORS
-├── README.md
-├── hsh.h
-├── main.c
-├── shell.c
-├── getline.c
-├── parse.c
-├── path.c
-├── execute.c
-├── builtins.c
-└── utils_string.c
+Simple Shell is a UNIX command line interpreter implemented in the C programming language.
+It provides a minimal implementation of basic shell functionalities, allowing users to execute commands and interact with the operating system.
 ---
 
+## File
+
+| File                 | Description                      |
+| -------------------- | -------------------------------- |
+| `main.c`             | Program entry point              |
+| `shell.c`            | Main execution loop              |
+| `getline.c`          | Custom input reading function    |
+| `parse.c`            | Command parsing and tokenization |
+| `path.c`             | PATH resolution logic            |
+| `execute.c`          | External command execution       |
+| `builtins.c`         | Built-in command handling        |
+| `utils_string.c`     | Utility string functions         |
+| `hsh.h`              | Header file                      |
+| `man_1_simple_shell` | Manual page                      |
+| `AUTHORS`            | List of contributors             |
+
+---
 ## Table of Contents
 - [Description](#description)
 - [Learning Objectives](#learning-objectives)
@@ -30,15 +35,8 @@ A simple UNIX command-line interpreter written in C that replicates the basic fu
 - [AUTHORS](#authors)
 
 ---
-
-## Description  
-This project is a simple UNIX command-line interpreter (shell) written in C. It mimics the basic behavior of `/bin/sh` and supports executing commands in both **interactive** and **non-interactive** modes.
-
-The shell reads user input, parses it into commands and arguments, searches for executables using the `PATH` environment variable, and executes them using system calls
-
 ## Compilation  
 Compile the shell using:
-
 ```bash
 gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh
 
@@ -50,33 +48,51 @@ $ ls
 $ pwd
 $ exitNon-Interactive Mode
 --
-
-## Features
-Displays a $ prompt in interactive mode
-Executes external commands
-Handles the PATH environment variable to locate executables
-Built-in commands:
-exit (with optional numeric status code)
-env
-Error messages match /bin/sh behavior
-Avoids unnecessary fork() calls when a command is not found
-Built-in Commands
-exit [status]
-Exits the shell
-Supports optional numeric exit status (e.g., exit 98)
-Handles invalid numeric arguments gracefully (prints error but does not exit)
-env
-Prints all environment variables, one per line, in NAME=value format
-Error Handling
-All errors are printed to stderr
-Error messages match the format used by /bin/sh
-The program name in error messages reflects argv[0]
-In non-interactive mode, errors include the command line number
-Example:
-
-./hsh: 1: qwerty: not found
-
+## Non-Interactive Mode
+$ echo "/bin/ls" | ./hsh
 ---
+## Built-in Commands
+| Command         | Description                                |
+| --------------- | ------------------------------------------ |
+| `exit [status]` | Terminates the shell process               |
+| `env`           | Displays the current environment variables |
+
+## exit Command
+-If no argument is provided, the shell exits with the status of the last executed command
+
+-If a numeric argument is provided, it is used as the exit status
+
+-If a non-numeric argument is provided, an error message is printed and the shell continues execution
+
+--
+## Implementation Overview
+
+1- Displays a prompt when running in interactive mode.
+
+2- Reads input from standard input using a custom _getline implementation.
+
+3- Parses and tokenizes the input line.
+
+4- Identifies and executes built-in commands.
+
+5- Searches for executable files in the PATH environment variable.
+
+6- Creates a child process using fork.
+
+7- Executes external commands using execve.
+
+8- Waits for the child process to terminate.
+--
+
+## Manual
+
+man ./man_1_simple_shell
+--
+## License
+
+This project is intended for educational purposes only.
+--
+
 # AUTHORS
 
 Abdullah Manahi Almouraibd
