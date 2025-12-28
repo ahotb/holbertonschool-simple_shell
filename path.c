@@ -17,9 +17,17 @@ char *find_in_path(char *cmd)
 	if (_has_char(cmd, '/'))
 		return (access(cmd, X_OK) == 0 ? _strdup(cmd) : NULL);
 
-	while (environ[i] && _strcmp(environ[i], "PATH=") != 0)
+	while (environ[i])
+	{
+		if (_strncmp(environ[i] >= 5 &&
+			environ[i][0] == 'P' &&
+			environ[i][1] == 'A' &&
+			environ[i][2] == 'T' &&
+			environ[i][3] == 'H' &&
+			environ[i][4] == '='))
+			break;
 		i++;
-
+	}
 	if (!environ[i])
 		return (NULL);
 
