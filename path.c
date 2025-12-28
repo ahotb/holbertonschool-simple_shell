@@ -19,7 +19,7 @@ char *find_in_path(char *cmd)
 
 	while (environ[i])
 	{
-		if (_strncmp(environ[i] >= 5 &&
+		if (_strlen(environ[i] >= 5 &&
 			environ[i][0] == 'P' &&
 			environ[i][1] == 'A' &&
 			environ[i][2] == 'T' &&
