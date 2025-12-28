@@ -36,17 +36,6 @@ int handle_builtin(char **args, char *prog, int last_status)
 		code = last_status;
 		if (args[1])
 		{
-			if (args[1][0] == '-')
-				i = 1;
-
-			if (args[1][i] == '\0')
-			{
-				write(2, prog, _strlen(prog));
-				write(2, ": 1: exit: Illegal number: ", 26);
-				write(2, args[1], _strlen(args[1]));
-				write(2, "\n", 1);
-				return (2);
-			}
 
 			while (args[1][i])
 			{
