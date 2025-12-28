@@ -37,7 +37,7 @@ int handle_builtin(char **args, char *prog, int last_status)
 		if (args[1])
 		{
 			if (args[1][0] == '-')
-			i = 1;
+				i = 1;
 
 			if (args[1][i] == '\0')
 			{
@@ -45,9 +45,9 @@ int handle_builtin(char **args, char *prog, int last_status)
 				write(2, ": 1: exit: Illegal number: ", 26);
 				write(2, args[1], _strlen(args[1]));
 				write(2, "\n", 1);
-				return(2);
+				return (2);
 			}
-			i = 0;
+
 			while (args[1][i])
 			{
 				if (args[1][i] < '0' || args[1][i] > '9')
@@ -56,13 +56,13 @@ int handle_builtin(char **args, char *prog, int last_status)
 					write(2, ": 1: exit: Illegal number: ", 26);
 					write(2, args[1], _strlen(args[1]));
 					write(2, "\n", 1);
-					return(2);
+					return (2);
 				}
 				i++;
 			}
 			code = (_atoi(args[1]) % 256);
 		}
-		return(code | 256);
+		return (code | 256);
 	}
 
 	if (_strcmp(args[0], "env") == 0)
