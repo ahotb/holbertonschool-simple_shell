@@ -19,12 +19,12 @@ char *find_in_path(char *cmd)
 
 	while (environ[i])
 	{
-		if (_strlen(environ[i] >= 5 &&
+		if (_strlen(environ[i]) >= 5 &&
 			environ[i][0] == 'P' &&
 			environ[i][1] == 'A' &&
 			environ[i][2] == 'T' &&
 			environ[i][3] == 'H' &&
-			environ[i][4] == '='))
+			environ[i][4] == '=')
 			break;
 		i++;
 	}
