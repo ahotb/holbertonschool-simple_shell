@@ -43,7 +43,7 @@ void shell_loop(char **av)
 					if (_strcmp(args[0], "exit") == 0)
 					{
 						exit_code = last_status;
-						if (exit_code > 256)
+						if (exit_code >= 256)
 						{
 							exit_code = exit_code & 0xff;
 							should_exit = 1;
