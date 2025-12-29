@@ -1,0 +1,82 @@
+.TH SIMPLE_SHELL 1 "December 2025" "Holberton School" "User Commands"
+.SH NAME
+simple_shell \- a simple UNIX command interpreter
+
+.SH SYNOPSIS
+.B ./shell
+
+.SH DESCRIPTION
+.B simple_shell
+is a basic UNIX command-line interpreter written in C. It reads commands from standard input and executes them.
+
+The shell supports both interactive and non-interactive modes.
+In interactive mode, a prompt ("$ ") is displayed and the shell waits for user input.
+In non-interactive mode, commands are read from standard input without displaying a prompt.
+
+The shell searches for commands in the directories listed in the
+.B PATH
+environment variable.
+
+.SH BUILT-IN COMMANDS
+
+.TP
+.B exit [status]
+Exit the shell.
+
+If an argument is given but is not a valid non-negative integer,
+the shell writes an error message to stderr in the format:
+.RS
+.nf
+./shell: 1: exit: Illegal number: <invalid_arg>
+.fi
+.RE
+and exits immediately with status 2.
+
+If a status is provided and is a valid non-negative integer,
+the shell exits with that value (modulo 256, as per standard shell behavior).
+
+If no status is provided, the shell exits with the status of the last executed command.
+
+.TP
+.B env
+Print the current environment variables, one per line.
+
+.SH RETURN VALUE
+The shell exits with the status of the last executed command or with the value provided to the
+.B exit
+built-in command.
+
+.SH ENVIRONMENT
+.TP
+.B PATH
+A colon-separated list of directories in which the shell looks for executable commands.
+
+.SH EXAMPLES
+Interactive mode:
+
+.nf
+$ ./shell
+$ ls -l
+$ env
+$ exit
+.fi
+
+Non-interactive mode:
+
+.nf
+$ echo "ls /tmp" | ./shell
+.fi
+
+.SH LIMITATIONS
+This shell is minimal and does not support many features of standard shells. Specifically:
+
+Signal handling (e.g., Ctrl+C does not terminate the shell)
+
+.SH AUTHOR
+Abdullah Manahi Almouraibd
+.br
+Rabea Younis Thabit
+
+.SH SEE ALSO
+.BR sh (1),
+.BR bash (1)
