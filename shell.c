@@ -9,9 +9,9 @@
  */
 void shell_loop(char **av)
 {
-	char *line = NULL, *orig, **args, *comment;
+	char *line = NULL, *orig, **args;
 	ssize_t nread;
-	int last_status = 0, should_exit = 0, exit_code = 0;
+	int last_status = 0, should_exit = 0, exit_code = 0, i;
 
 	while (1)
 	{
@@ -33,10 +33,18 @@ void shell_loop(char **av)
 		line = trim_spaces(line);
 
 
-		 comment = strchr(line, '#');
-			if (comment)
-				comment = '\0';
-
+			while (line[i])
+			{
+				if (line[i] == '#')
+				{
+					if (i == 0 || line[i - 1] == ' ' || line[i - 1] == '\t')
+					{
+						line[i] = '\0';
+						break;
+					}
+				}
+				i++;
+			}
 
 		if (*line)
 		{
