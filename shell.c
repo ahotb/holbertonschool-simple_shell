@@ -33,9 +33,9 @@ void shell_loop(char **av)
 		line = trim_spaces(line);
 
 
-		 *comment = strchr(line, '#');
+		 comment = strchr(line, '#');
 			if (comment)
-				*comment = '\0';
+				comment = '\0';
 
 
 		if (*line)
