@@ -1,108 +1,64 @@
-# Simple Shell
-
-## Description
-
-Simple Shell is a UNIX command line interpreter implemented in the C programming language.  
-It provides a minimal implementation of basic shell functionalities, allowing users to execute commands and interact with the operating system.
-
+# **Simple Shell**
+A minimal UNIX command-line interpreter implemented in C as part of the low-level programming curriculum at Holberton School.
+This shell supports interactive and non-interactive modes, built-in commands, environment variable access, and external command execution — all using system calls like `fork`, `execve`, and `wait`.
 ---
-
-## File
-
+## :file_folder: Project Structure
 | File                 | Description                      |
 | -------------------- | -------------------------------- |
 | `main.c`             | Program entry point              |
 | `shell.c`            | Main execution loop              |
-| `getline.c`          | Custom input reading function    |
+| `getline.c`          | Custom input reading (`_getline`)|
 | `parse.c`            | Command parsing and tokenization |
-| `path.c`             | PATH resolution logic            |
+| `path.c`             | `PATH` resolution logic          |
 | `execute.c`          | External command execution       |
 | `builtins.c`         | Built-in command handling        |
-| `utils_string.c`     | Utility string functions         |
-| `hsh.h`              | Header file                      |
-| `man_1_simple_shell` | Manual page                      |
+| `utils_string.c`     | Custom string utility functions  |
+| `hsh.h`              | Header file with prototypes      |
+| `man_1_simple_shell` | Manual page (`man ./man_1_simple_shell`) |
 | `AUTHORS`            | List of contributors             |
-
 ---
-
-## Table of Contents
-- [Description](#description)
-- [Learning Objectives](#learning-objectives)
-- [Requirements](#requirements)
-- [Compilation](#compilation)
-- [Usage Examples](#usage-examples)
-- [Features](#features)
-- [Built-in Commands](#built-in-commands)
-- [Error Handling](#error-handling)
-- [File Structure](#file-structure)
-- [AUTHORS](#authors)
-
+## :sparkles: Features
+- Supports **interactive mode** (with `$ ` prompt) and **non-interactive mode** (via pipe or script).
+- Implements built-in commands: `exit` and `env`.
+- Resolves commands using the `PATH` environment variable.
+- Uses only **system calls** (`write`, `fork`, `execve`, `wait`, `access`, etc.) — **no standard I/O**.
+- Handles **exit status** correctly (including modulo 256 for out-of-range values).
+- Validates `exit` arguments: rejects non-numeric inputs with proper error messages.
+- Fully compliant with **ISO C90** and compiles with strict GCC flags.
 ---
-
-## Compilation  
-
+## :wrench: Built-in Commands
+| Command         | Description                                |
+| --------------- | ------------------------------------------ |
+| `exit [status]` | Terminates the shell.                      |
+| `env`           | Prints all environment variables.          |
+> **`exit` behavior**:
+> - No argument → exits with last command’s status.
+> - Valid number → exits with that status (mod 256).
+> - Invalid (e.g., `exit abc` or `exit -5`) → prints error:
+>   `./hsh: 1: exit: Illegal number: <arg>` and continues.
+---
+## :rocket: Compilation
 Compile the shell using:
-
 ```bash
 gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh
-````--
-
-## Usage Examples
+----
+:computer: Usage Examples
 Interactive Mode
 $ ./hsh
 $ ls
 $ pwd
-$ exitNon-Interactive Mode
---
-## Non-Interactive Mode
-$ echo "/bin/ls" | ./hsh
---
-## Built-in Commands
-| Command         | Description                                |
-| --------------- | ------------------------------------------ |
-| `exit [status]` | Terminates the shell process               |
-| `env`           | Displays the current environment variables |
-
-## exit Command
--If no argument is provided, the shell exits with the status of the last executed command
-
--If a numeric argument is provided, it is used as the exit status
-
--If a non-numeric argument is provided, an error message is printed and the shell continues execution
-
---
-## Implementation Overview
-
-1- Displays a prompt when running in interactive mode.
-
-2- Reads input from standard input using a custom _getline implementation.
-
-3- Parses and tokenizes the input line.
-
-4- Identifies and executes built-in commands.
-
-5- Searches for executable files in the PATH environment variable.
-
-6- Creates a child process using fork.
-
-7- Executes external commands using execve.
-
-8- Waits for the child process to terminate.
---
-
-## Manual
-
+$ env
+$ exit
+Non-Interactive Mode
+$ echo "ls -l" | ./hsh
+$ cat script.sh | ./hsh
+Manual Page
 man ./man_1_simple_shell
---
-## License
-
-This project is intended for educational purposes only.
---
-
-# AUTHORS
-
+:warning: Error Handling
+Invalid exit arguments → clear error on stderr with exit status 2.
+Command not found → ./hsh: 1: <cmd>: not found\n with status 127.
+Memory allocation failures → handled gracefully (shell exits safely).
+All output uses write() — no reliance on printf, puts, or putchar.
+:memo: AUTHORS
 Abdullah Manahi Almouraibd
 Rabea Younis Thabit
-
-
-
