@@ -88,7 +88,7 @@ Invalid exit arguments
 Command not found
 → Error message:
 ```
-./hsh: 1: <cmd>: not found
+./shell: 1: <cmd>: not found
 ```
 
 ---
