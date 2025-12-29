@@ -11,7 +11,7 @@ void shell_loop(char **av)
 {
 	char *line = NULL, *orig, **args;
 	ssize_t nread;
-	int last_status = 0, should_exit = 0, exit_code = 0;
+	int last_status = 0, should_exit = 0, exit_code = 0, i;
 
 	while (1)
 	{
@@ -32,6 +32,15 @@ void shell_loop(char **av)
 		orig = line;
 		line = trim_spaces(line);
 
+			while (line[i])
+			{
+				if (line[i] == '#')
+				{
+					line[i] = '\0';
+					break;
+				}
+				i++;
+			}
 		if (*line)
 		{
 
