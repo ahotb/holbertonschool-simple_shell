@@ -59,6 +59,7 @@ $ ./shell
 $ ls -l
 $ env
 $ exit
+$ echo "ls -l" | ./shell
 .fi
 
 Non-interactive mode:
